@@ -25,8 +25,8 @@ for t in t_array:
 
     # calculate new position and velocity
     a = -k * x / m
-    x = x + dt * v
-    v = v + dt * a
+    x = x + dt*v
+    v = v + dt*a
 
 # convert trajectory lists into arrays, so they can be sliced
 # useful for Assignment 2
