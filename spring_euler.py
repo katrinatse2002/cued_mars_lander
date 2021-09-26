@@ -9,7 +9,7 @@ v = 1
 
 # simulation time, timestep and time
 t_max = 100
-dt = 0.001
+dt = 0.1
 t_array = np.arange(0, t_max, dt)
 
 # initialise empty lists to record trajectories
@@ -35,8 +35,6 @@ v_array = np.array(v_list)
 
 # plot the position-time graph
 plt.title('Euler')
-plt.figure(1)
-plt.clf()
 plt.xlabel('time (s)')
 plt.grid()
 plt.plot(t_array, x_array, label='x (m)')
