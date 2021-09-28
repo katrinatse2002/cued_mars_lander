@@ -11,6 +11,7 @@ h = 0
 r0 = 6*10e6
 e = 0.7
 
+# for circular orbit, v_y = sqrt(GM/r0)
 position = np.array([r0 + h, 0, 0])
 velocity = np.array([0, e*np.sqrt(G*M/(r0+h)), 0])
 
