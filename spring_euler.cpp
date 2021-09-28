@@ -50,7 +50,7 @@ int main() {
 
   import numpy as np
   import matplotlib.pyplot as plt
-  results = np.loadtxt('trajectories.txt')
+  results = np.loadtxt('euler.txt')
   plt.figure(1)
   plt.clf()
   plt.xlabel('time (s)')
