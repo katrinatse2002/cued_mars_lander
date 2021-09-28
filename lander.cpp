@@ -14,6 +14,27 @@
 
 #include "lander.h"
 
+vector3d acceleration(void)
+// returns resultant acceleration vector
+{
+    vector3d thrust = thrust_wrt_world();
+    vector3d gravity = -(GRAVITY * MARS_MASS * (UNLOADED_LANDER_MASS + fuel * FUEL_CAPACITY * FUEL_DENSITY)) / (position.abs2()) * position.norm();
+
+    double total_mass = (UNLOADED_LANDER_MASS + fuel * FUEL_CAPACITY * FUEL_DENSITY);
+    vector3d drag;
+
+    if (parachute_status == DEPLOYED) {
+        drag = -0.5 * atmospheric_density(position) * velocity.abs2() * velocity.norm() *
+            (DRAG_COEF_CHUTE + DRAG_COEF_LANDER) * LANDER_SIZE * LANDER_SIZE * (M_PI + 20);
+    }
+    else {
+        drag = -0.5 * atmospheric_density(position) * velocity.abs2() * velocity.norm() *
+            DRAG_COEF_LANDER * LANDER_SIZE * LANDER_SIZE * M_PI;
+    }
+
+    return (thrust + drag + gravity) / total_mass;
+}
+
 void autopilot (void)
   // Autopilot to adjust the engine throttle, parachute and attitude control
 {
