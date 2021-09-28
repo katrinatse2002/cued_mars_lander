@@ -22,7 +22,7 @@ int main() {
   t = 0;
   x_prev = -(v*dt -x);
 
-  // Euler integration
+  // Verlet integration
   for (t = 0; t <= t_max; t = t + dt) {
 
     // append current state to trajectories
