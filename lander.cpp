@@ -103,7 +103,7 @@ void initialize_simulation (void)
   switch (scenario) {
 
   case 0:
-    // a circular equatorial orbit
+    // circular equatorial orbit
     position = vector3d(1.2*MARS_RADIUS, 0.0, 0.0);
     velocity = vector3d(0.0, -3247.087385863725, 0.0);
     orientation = vector3d(0.0, 90.0, 0.0);
@@ -114,7 +114,7 @@ void initialize_simulation (void)
     break;
 
   case 1:
-    // a descent from rest at 10km altitude
+    // descent from rest at 10km altitude
     position = vector3d(0.0, -(MARS_RADIUS + 10000.0), 0.0);
     velocity = vector3d(0.0, 0.0, 0.0);
     orientation = vector3d(0.0, 0.0, 90.0);
@@ -125,7 +125,7 @@ void initialize_simulation (void)
     break;
 
   case 2:
-    // an elliptical polar orbit
+    // elliptical polar orbit
     position = vector3d(0.0, 0.0, 1.2*MARS_RADIUS);
     velocity = vector3d(3500.0, 0.0, 0.0);
     orientation = vector3d(0.0, 0.0, 90.0);
@@ -147,7 +147,7 @@ void initialize_simulation (void)
     break;
 
   case 4:
-    // an elliptical orbit that clips the atmosphere each time round, losing energy
+    // elliptical orbit that clips the atmosphere each time round, losing energy
     position = vector3d(0.0, 0.0, MARS_RADIUS + 100000.0);
     velocity = vector3d(4000.0, 0.0, 0.0);
     orientation = vector3d(0.0, 90.0, 0.0);
@@ -158,7 +158,7 @@ void initialize_simulation (void)
     break;
 
   case 5:
-    // a descent from rest at the edge of the exosphere
+    // descent from rest at the edge of the exosphere
     position = vector3d(0.0, -(MARS_RADIUS + EXOSPHERE), 0.0);
     velocity = vector3d(0.0, 0.0, 0.0);
     orientation = vector3d(0.0, 0.0, 90.0);
