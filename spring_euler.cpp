@@ -37,7 +37,7 @@ int main() {
 
   // Write the trajectories to file
   ofstream fout;
-  fout.open("trajectories.txt");
+  fout.open("euler.txt");
   if (fout) { // file opened successfully
     for (int i = 0; i < t_list.size(); i = i + 1) {
       fout << t_list[i] << ' ' << x_list[i] << ' ' << v_list[i] << endl;
