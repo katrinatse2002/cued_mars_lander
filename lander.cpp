@@ -18,46 +18,60 @@ vector3d acceleration(void)
 // returns resultant acceleration vector
 {
     vector3d thrust = thrust_wrt_world();
-    vector3d gravity = -(GRAVITY * MARS_MASS * (UNLOADED_LANDER_MASS + fuel * FUEL_CAPACITY * FUEL_DENSITY)) / (position.abs2()) * position.norm();
+    vector3d gravity = -(GRAVITY*MARS_MASS * (UNLOADED_LANDER_MASS + fuel*FUEL_CAPACITY*FUEL_DENSITY)) / (position.abs2())*position.norm();
 
-    double total_mass = (UNLOADED_LANDER_MASS + fuel * FUEL_CAPACITY * FUEL_DENSITY);
+    double total_mass = (UNLOADED_LANDER_MASS + fuel*FUEL_CAPACITY*FUEL_DENSITY);
+
     vector3d drag;
-
     if (parachute_status == DEPLOYED) {
-        drag = -0.5 * atmospheric_density(position) * velocity.abs2() * velocity.norm() *
-            (DRAG_COEF_CHUTE + DRAG_COEF_LANDER) * LANDER_SIZE * LANDER_SIZE * (M_PI + 20);
+        drag = -0.5*atmospheric_density(position)*velocity.abs2()*velocity.norm()*
+            (DRAG_COEF_CHUTE + DRAG_COEF_LANDER) * LANDER_SIZE*LANDER_SIZE*(M_PI + 20);
     }
     else {
-        drag = -0.5 * atmospheric_density(position) * velocity.abs2() * velocity.norm() *
-            DRAG_COEF_LANDER * LANDER_SIZE * LANDER_SIZE * M_PI;
+        drag = -0.5*atmospheric_density(position)*velocity.abs2()*velocity.norm()*
+            DRAG_COEF_LANDER*LANDER_SIZE*LANDER_SIZE*M_PI;
     }
 
     return (thrust + drag + gravity) / total_mass;
 }
 
 void autopilot (void)
-  // Autopilot to adjust the engine throttle, parachute and attitude control
+  // autopilot to adjust the engine throttle, parachute and attitude control
 {
   // INSERT YOUR CODE HERE
 }
 
 void numerical_dynamics (void)
-  // This is the function that performs the numerical integration to update the
+  // this is the function that performs the numerical integration to update the
   // lander's pose. The time step is delta_t (global variable).
 {
-  // INSERT YOUR CODE HERE
+  static vector3d prev_position;
+    vector3d next_position;
 
-  // Here we can apply an autopilot to adjust the thrust, parachute and attitude
+    if (simulation_time == 0.0) {
+        next_position = position + delta_t*velocity;
+        velocity = velocity + delta_t*acceleration();
+    }
+    else {
+        next_position = 2*position - prev_position + delta_t*delta_t*acceleration();
+        velocity = 1/(2*delta_t) * (next_position - prev_position);
+    }
+
+    prev_position = position;
+    position = next_position;
+    cout << fuel;
+
+  // here we can apply an autopilot to adjust the thrust, parachute and attitude
   if (autopilot_enabled) autopilot();
 
-  // Here we can apply 3-axis stabilization to ensure the base is always pointing downwards
+  // here we can apply 3-axis stabilization to ensure the base is always pointing downwards
   if (stabilized_attitude) attitude_stabilization();
 }
 
 void initialize_simulation (void)
-  // Lander pose initialization - selects one of 10 possible scenarios
+  // lander pose initialization - selects one of 10 possible scenarios
 {
-  // The parameters to set are:
+  // the parameters to set are:
   // position - in Cartesian planetary coordinate system (m)
   // velocity - in Cartesian planetary coordinate system (m/s)
   // orientation - in lander coordinate system (xyz Euler angles, degrees)
