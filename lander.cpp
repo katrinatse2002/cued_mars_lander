@@ -38,7 +38,17 @@ vector3d acceleration(void)
 void autopilot (void)
   // autopilot to adjust the engine throttle, parachute and attitude control
 {
-  // INSERT YOUR CODE HERE
+  double d, kh, kp, e, p;
+
+    d = (GRAVITY*MARS_MASS * (UNLOADED_LANDER_MASS + fuel*FUEL_DENSITY*FUEL_CAPACITY) / position.abs2()) / MAX_THRUST;
+    kh = 0.02;
+    kp = 0.4;
+    e = -(0.5 + kh*(position.abs() - MARS_RADIUS) + velocity*position.norm());
+    p = kp*e;
+
+    if (p <= -d) throttle = 0;
+    else if (p < 1 - d) throttle = d + p;
+    else throttle = 1;
 }
 
 void numerical_dynamics (void)
