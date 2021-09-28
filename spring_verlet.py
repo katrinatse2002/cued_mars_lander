@@ -17,7 +17,7 @@ x_list = []
 v_list = []
 
 # Euler integration
-for i in range(len(t_array)):
+for i in range(len(t_array)-1):
 
     # append current state to trajectories
     x_list.append(x)
