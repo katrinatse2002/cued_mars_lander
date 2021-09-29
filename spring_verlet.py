@@ -24,7 +24,7 @@ for i in range(len(t_array)-1):
     v_list.append(v)
 
     if i == 0:
-        x_prev = -(v*dt-x)
+        x_prev = -(v*dt - x)
     else:
         x_prev = x_list[i-1]
 
