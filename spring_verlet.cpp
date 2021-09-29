@@ -20,7 +20,7 @@ int main() {
   t_max = 100;
   dt = 0.1;
   t = 0;
-  x_prev = -(v*dt -x);
+  x_prev = -(v*dt - x);
 
   // Verlet integration
   for (t = 0; t <= t_max; t = t + dt) {
