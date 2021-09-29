@@ -13,6 +13,7 @@
 // ahg@eng.cam.ac.uk and gc121@eng.cam.ac.uk.
 
 #include "lander.h"
+#include <vector>
 
 vector3d acceleration(void)
 // returns resultant acceleration vector
@@ -38,17 +39,36 @@ vector3d acceleration(void)
 void autopilot (void)
   // autopilot to adjust the engine throttle, parachute and attitude control
 {
-  double d, kh, kp, e, p;
+  double d, kh, kp, e, p, altitude, rad_vel;
+  vector<double> p_out, rv_out;
 
     d = (GRAVITY*MARS_MASS * (UNLOADED_LANDER_MASS + fuel*FUEL_DENSITY*FUEL_CAPACITY) / position.abs2()) / MAX_THRUST;
     kh = 0.02;
     kp = 0.4;
-    e = -(0.5 + kh*(position.abs() - MARS_RADIUS) + velocity*position.norm());
+    altitude = position.abs() - MARS_RADIUS;
+    rad_vel = -(0.5 + kh*altitude);
+    e = -(0.5 + kh*altitude + velocity*position.norm());
     p = kp*e;
 
     if (p <= -d) throttle = 0;
     else if (p < 1 - d) throttle = d + p;
     else throttle = 1;
+
+    p_out.push_back(altitude);
+    rv_out.push_back(rad_vel);
+
+    if (-2 <= altitude && altitude <= 2 && -0.5 <= rad_vel && rad_vel <= 0.5) {
+        ofstream fout;
+        fout.open("autopilot_data.txt");
+        if (fout) {
+            for (int i = 0; i < p_out.size(); i = i + 1) {
+                fout << p_out[i] << " " << rv_out[i] << endl;
+            }
+        }
+        else {
+            cout << "Could not open trajectory file for writing" << endl;
+        }
+    }
 }
 
 void numerical_dynamics (void)
